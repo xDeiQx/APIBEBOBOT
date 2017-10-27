@@ -34,7 +34,6 @@ $msg_id = $update->callback_query->message->message_id;
 $data = $update->callback_query->data;
 $admin1 = file_get_contents("https://api.telegram.org/bot".API_KEY."/getChatMember?chat_id=@llteam_beboll&user_id=$id");
 $admin = file_get_contents("https://api.telegram.org/bot".API_KEY."/getChatMember?chat_id=$chat_id&user_id=$id");
-$bot_id = 427075194;
 $get_link = file_get_contents('bebo/link.txt');
 $link = explode("\n", $get_link);
 $get_username = file_get_contents('bebo/username.txt');
@@ -61,11 +60,31 @@ $get_bad = file_get_contents('bebo/badword.txt');
 $bad_word = explode("\n", $get_bad);
 $get_edit = file_get_contents('bebo/edit.txt');
 $edit = explode("\n", $get_edit);
-$get_chat = file_get_contents('bebo/chat.txt');
-$chat = explode("\n", $get_chat);
-
+$get_en = file_get_contents('bebo/english.txt');
+$en = explode("\n", $get_en);
+$get_ar = file_get_contents('bebo/arabic.txt');
+$ar = explode("\n", $get_ar);
 
 if($text == "/start" and strpos($admin1, '"status":"left"') == TRUE and $type == "private"){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+'text'=>"📛 ¦ عذرا عزيزي $n1
+⚠️ ¦ يجب ان تشترك في قناة البوت اولا 
+〰〰〰〰
+📛 ¦ *Sorry Dear*
+⚠️ ¦ *You Must Subscribe To The Channel First*",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا للأشتراك ☄️💥", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]],
+]
+])
+]);
+}
+
+if($text == "/start" and strpos($admin1, '"status":"left"') == TRUE and $type == "supergroup"){
 bot('sendMessage',[
 'chat_id'=>$chat_id,
 'parse_mode'=>'Markdown',
@@ -107,27 +126,39 @@ bot('sendMessage',[
 ]);
 }
 
+if($text == "/start" and strpos($admin1, '"status":"left"') != TRUE and $type == "supergroup"){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+'text'=>"✨ ¦ اهلا وسهلا بك عزيزي [$n1](t.me/$us)
+⭐️ ¦ في بوت *BEBO* لحماية المجموعات الخارقة *10k*
+💥 ¦ البوت لا يتخطى اي توجيه او رابط ابدا ⚡️
+☄️ ¦ البوت يتعرف تلقائيا على المدير والادمنية تلقائيا
+〰〰〰〰
+✨ ¦ *Welcome dear*  [$n1](t.me/$us)
+⭐️ ¦ *In the Bebo bot to protect supergroup*
+💥 ¦ *The bot does not exceed any direction or link at all*
+☄️ ¦ *Bot automatically identifies the generator*",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا لعرض مهام البوت ⚡️💥", "callback_data"=>"h7"]],
+]
+])
+]);
+}
+
 if($data == "h7"){
 bot('editMessageText',[
 'chat_id'=>$chat_id2,
 'message_id'=>$msg_id,
 'parse_mode'=>'Markdown',
 'disable_web_page_preview'=>true,
-'text'=>"✨ ¦ اهلا وسهلا بك عزيزي من جديد 
-☄️ ¦ في قائمة مهام التي يقوم بها البوت 
-💥 ¦ البوت يقوم بــ -: 
-توجيه ♻️ : روابط ⚠️ : ملصقات 📊 : صور 🖼 : بصمة 🔊 : صوتيات MP3 🎶 : فيديو 🎥 : معرفات 🕹 : اشعارات دخول 💡 : جهات الاتصال 📞 : الكلمات السيئة ( الفشار ) 🚫
-🔅 ¦ البوت يعمل بلاوامر مثل بوتات *CLI*
-♨️ ¦ ايضا يقوم ب:- 
-♻️ ¦ تغيير اسم المجموعة
+'text'=>"⚜️ ¦ قفل 🔐 - فتح 🔓 : 
+📋 ¦ التوجيه ( *FORWORD* ) ♻️ : الروابط ( *LINK* ) 🌐 : التعديل ( *EDIT* ) ❇️ : المعرف ( *USERNAME@* ) ⚜️ : الصور ( *PHOTO* ) 🖼 : الملصقات ( *STIKER* ) 🏷 : البصمة ( *VOICE MESSAGE* ) 🎤 : موسيقى ( *AUDIO MESSAGE* ) 🎧 : الفيديو ( *VEDIO* ) 🎥 : جهات الاتصال ( *CONTACK* ) 📞 : اشعارات دخول ( *Entry Notifications* ) 💡 : الكلمات السيئة ( *BADWORD* ) 🚫 
 
-〰〰〰〰
-✨ ¦ *Hello Dear Again*
-☄️ ¦ *In The Task List That The Bot Does*
-💥 ¦ *Forward Message ♻️ : Links  : Sticker 📊 : Photo 🖼 : Voice 🔊 : Audio Mp3 🎶 : Video 🎥 : Username 🕹 : Entry Notifications 💡 : contack 📞 : badword 🚫*
-🔅 ¦ *The Bot Works Like CLI Bots*
-♨️ ¦ *And -:*
-♻️ ¦ *Change Chat Title + Pin And Unpin Message In Reply*",
+🛡 ¦ طرد بوتات الـ( *API* )ـ المضافة من قبل عضو ",
 'reply_to_message_id'=>$mid,
 'reply_markup'=>json_encode([
 'inline_keyboard'=>[
@@ -137,102 +168,40 @@ bot('editMessageText',[
 ]);
 }
 
-
-if($text == "الاوامر" and strpos($admin , '"status":"member"') == FALSE and $type == "supergroup"){
+if($text == "الاوامر" and strpos($admin, '"status":"member"') != TRUE and $type == "supergroup"){
 bot('sendMessage',[
-'chat_id'=> $chat_id,
+'chat_id'=>$chat_id,
 'parse_mode'=>'Markdown',
-'disable_web_page_preview'=>true,
-'text'=>"✨ ¦ اهلا وسهلا بك عزيزي [$n1](t.me/$us)
-☄️ ¦ اضغط على احدا هذه الخيارات لعرض الاوامر 
-〰〰〰〰
-✨ ¦ *Welcome dear*  [$n1](t.me/$us)
-☄️ ¦ *Click one of these options to display the commands*",
+'text'=>"💡 ¦ اهلا وسهلا بك عزيزي في قائمة الاوامر 
+🛡 ¦ للتحكم بالبوت من قبل المسؤول : 
+📤 ¦ ارسل ( قفل - فتح ) مع الامر 👇👇 : 
+♻️ ¦ التوجيه 
+🌐 ¦ الروابط 
+💠 ¦ التعديل 
+🔰 ¦ المعرف 
+🖼 ¦ الصور 
+🖥 ¦ المتحركه
+📜 ¦ الملصقات 
+🎥 ¦ الفيديو 
+🎤 ¦ البصمه
+🎧 ¦ الصوت 
+📞 ¦ جهات الاتصال
+💡 ¦ الاشعارات
+🚫 ¦ الفشار
+🔹 ¦ العربية
+🔸 ¦ الانكليزية
+----------*Other Orders*-----------
+🌀 ¦ ضع اسم + الاسم = لتغيير اسم المجـــ*Group*ــموعة
+💢 ¦ البوت بقوم بطرد بوتات الــ( *API* )ــ المضافة من قبل عضو تلقائيا
+🌀 ¦ لعرض معلوماتك ارسل ( ايدي ) 
+",
 'reply_to_message_id'=>$mid,
 'reply_markup'=>json_encode([
 'inline_keyboard'=>[
-    [['text'=>"اضغط هنا لعرض اوامر القفل والفتح⭐️☄️", "callback_data"=>"h2"]],
-    [['text'=>"اضغط هنا لعرض اوامر الاخرى 〽️⚜️", "callback_data"=>"h3"]],
+    [['text'=>"تابعنا 📡📬", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]],
 ]
 ])
 ]);
-}
-$n = $update->callback_query->from->first_name;
-
-if($data == "h"){
-if(strpos($admin , '"status":"member"') == FALSE){
-bot('editMessageText',[
-'chat_id'=>$chat_id2,
-'message_id'=>$msg_id,
-'parse_mode'=>'Markdown',
-'disable_web_page_preview'=>true,
-'text'=>"✨ ¦ اهلا وسهلا بك عزيزي [$n](t.me/$usser)
-☄️ ¦ اضغط على احدا هذه الخيارات لعرض الاوامر 
-〰〰〰〰
-✨ ¦ *Welcome dear* [$n](t.me/$usser)
-☄️ ¦ *Click one of these options to display the commands*",
-'reply_to_message_id'=>$mid,
-'reply_markup'=>json_encode([
-'inline_keyboard'=>[
-    [['text'=>"اضغط هنا لعرض اوامر القفل والفتح⭐️☄️", "callback_data"=>"h2"]],
-    [['text'=>"اضغط هنا لعرض اوامر الاخرى 〽️⚜️", "callback_data"=>"h3"]],
-]
-])
-]);
-}
-}
-
-if($data == "h2"){
-if(strpos($admin , '"status":"member"') == FALSE){
-bot('editMessageText',[
-'chat_id'=>$chat_id2,
-'message_id'=>$msg_id,
-'parse_mode'=>'Markdown',
-'disable_web_page_preview'=>true,
-'text'=>"
-📛 ¦ للتحكم بالبوت من قبل المدير والادمنية الاوامر هي  :- 
-
-♻️¦ قفل - فتح ➖ التوجيه  
-⚠️¦ قفل - فتح ➖  الروابط  
-📊¦ قفل - فتح ➖ الملصقات  
-🖼¦ قفل - فتح ➖  الصور 
-🔊¦ قفل - فتح ➖ البصمه
-🎶¦ قفل - فتح ➖  الصوت  
-🎥¦ قفل - فتح ➖ الفيديو  
-🕹¦ قفل - فتح ➖ المعرف  
-💡¦ قفل - فتح ➖  الاشعارات
-©¦ قفل - فتح ➖ جهات الاتصال
-🚫¦ قفل - فتح ➖ الفشار
-🔂 ¦ قفل - فتح ➖ التعديل",
-'reply_to_message_id'=>$mid,
-'reply_markup'=>json_encode([
-'inline_keyboard'=>[
-    [['text'=>"العوده الى الصفحة الرئيسية 🔙", "callback_data"=>"h"]],
-]
-])
-]);
-}
-}
-
-if($data == "h3"){
-if(strpos($admin , '"status":"member"') == FALSE){
-bot('editMessageText',[
-'chat_id'=>$chat_id2,
-'parse_mode'=>'Markdown',
-'disable_web_page_preview'=>true,
-'message_id'=>$msg_id,
-'text'=>"📍¦ اوامر اخرى في المجــ*Group*ـموعة   :-
-🚪¦ لمغادره البوت لمجموعتك ارسل ( غادر ) البوت يغادر فقط بأمر المنشىء
-🔗¦ ضع اسم ➖ لتغيير اسم المجــ*Group*ـموعة 
-ℹ️¦ ارسل ( ايدي ) لعرض معلوماتك",
-'reply_to_message_id'=>$mid,
-'reply_markup'=>json_encode([
-'inline_keyboard'=>[
-    [['text'=>"العوده الى الصفحة الرئيسية 🔙", "callback_data"=>"h"]],
-]
-])
-]);
-}
 }
 
 #more ......
@@ -252,8 +221,6 @@ bot('sendPhoto',[
 'caption'=>"🔅 • اسمك : $n1 $n2
 🆔 • ايديك : $id
 🔆 • بايو : $bio
-🌟 • اسم المجموعة : $gn
-☄️ •  ايدي المجموعة : $chat_id
 📬 • معرفك :  @$usser",
 'reply_to_message_id'=>$mid,
 'reply_markup'=>json_encode([
@@ -322,6 +289,20 @@ if(preg_match('/^(كحبة|كواد|طير|فرخ|فرختي|ابن فرختي|�
     
     
     if(preg_match('/^(@)(.*)/',$text) and strpos($admin , '"status":"member"') == TRUE and in_array($chat_id, $user) and $type == "supergroup"){
+    bot('deletemessage',[
+    'chat_id'=>$chat_id,
+    'message_id'=>$mid
+    ]);
+    }
+
+    if(preg_match('/^([Aa]|[Bb]|[Cc]|[Dd]|[Ee]|[Ff]|[Gg]|[Hh]|[Ii]|[Jj]|[Kk]|[Ll]|[Mm]|[Nn]|[Oo]|[Pp]|[Qq]|[Rr]|[Ss]|[Tt]|[Uu]|[Vv]|[Ww]|[Xx]|[Yy]|[Zz])(.*)/',$text) and strpos($admin , '"status":"member"') == TRUE and in_array($chat_id, $En) and $type == "supergroup"){
+    bot('deletemessage',[
+    'chat_id'=>$chat_id,
+    'message_id'=>$mid
+    ]);
+    }
+
+    if(preg_match('/^([ض]|[ص]|[ث]|[ق]|[ف]|[غ]|[ع]|[ه]|[خ]|[ح]|[ج]|[د]|[ذ]|[ش]|[س]|[ي]|[ب]|[ل]|[ا]|[ت]|[ن]|[ن]|[م]|[ك]|[ط]|[ئ]|[ء]|[ؤ]|[ر]|[ز]|[ى]|[ة]|[و]|[ظ]|[أ]|[آ])(.*)/',$text) and strpos($admin , '"status":"member"') == TRUE and in_array($chat_id, $ar) and $type == "supergroup"){
     bot('deletemessage',[
     'chat_id'=>$chat_id,
     'message_id'=>$mid
@@ -398,7 +379,7 @@ if($message->forward_from->id and strpos($admin , '"status":"member"') == TRUE a
     ]);
     }
 
-    if(preg_match('/^([Hh]ttp|[Hh]ttps|t.me|telegram.me)(.*)/',$text) and strpos($admin , '"status":"member"') == TRUE and in_array($chat_id, $link) and $type == "supergroup"){
+    if(preg_match('/^([Hh]ttp|[Hh]ttps|[Tt].[Mm][Ee]|[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]|[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]|[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee])(.*)/',$text) and strpos($admin , '"status":"member"') == TRUE and in_array($chat_id, $link) and $type == "supergroup"){
     bot('deletemessage',[
     'chat_id'=>$chat_id,
     'message_id'=>$mid
@@ -1350,10 +1331,153 @@ bot('sendMessage',[
 ]);
 }
 
+if($text == "قفل الانكليزية" and strpos($admin , '"status":"member"') == FALSE and !in_array($chat_id, $en) and $type == "supergroup"){
+file_put_contents('bebo/english.txt', "\n" . $chat_id, FILE_APPEND);
+        
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"📛 ¦ تم قفل اللغة الانكليزية بنجاح 🔐
+🔆 ¦ مرسل الامر [$n1](t.me/$us)",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+}
+        
+if($text == "قفل الانكليزية" and strpos($admin , '"status":"member"') == FALSE and in_array($chat_id, $en) and $type == "supergroup"){
+            
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"⚠️ ¦ اللغة الانكليزية بالفعل مقفولة 🔒
+🔆 ¦ مرسل الامر [$n1](t.me/$us)",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+   [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+}
+        
+if($text == "فتح الانكليزية" and strpos($admin , '"status":"member"') == FALSE and in_array($chat_id, $en) and $type == "supergroup"){
+        
+$open = file_get_contents("bebo/english.txt");
+$str = str_replace($chat_id, "", $open);
+file_put_contents("bebo/english.txt", $str);
+        
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"🔓 ¦ تم فتح اللغة الانكليزية بنجاح 
+ 🔆 ¦ مرسل الامر [$n1](t.me/$us)", 
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+} 
+        
+if($text == "فتح الانكليزية" and strpos($admin , '"status":"member"') == FALSE and !in_array($chat_id, $en) and $type == "supergroup"){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"🔓 ¦ اللغة الانكليزية بالفعل مفتوحه 
+🔆 ¦ مرسل الامر [$n1](t.me/$us)",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+}
+
+if($text == "قفل العربية" and strpos($admin , '"status":"member"') == FALSE and !in_array($chat_id, $ar) and $type == "supergroup"){
+file_put_contents('bebo/arabic.txt', "\n" . $chat_id, FILE_APPEND);
+        
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"📛 ¦ تم قفل اللغة العربية بنجاح 🔐
+🔆 ¦ مرسل الامر [$n1](t.me/$us)",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+}
+        
+if($text == "قفل العربية" and strpos($admin , '"status":"member"') == FALSE and in_array($chat_id, $ar) and $type == "supergroup"){
+            
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"⚠️ ¦ اللغة العربية بالفعل مقفولة 🔒
+🔆 ¦ مرسل الامر [$n1](t.me/$us)",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+   [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+}
+        
+if($text == "فتح العربية" and strpos($admin , '"status":"member"') == FALSE and in_array($chat_id, $ar) and $type == "supergroup"){
+        
+$open = file_get_contents("bebo/arabic.txt");
+$str = str_replace($chat_id, "", $open);
+file_put_contents("bebo/arabic.txt", $str);
+        
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"🔓 ¦ تم فتح اللغة العربية بنجاح 
+ 🔆 ¦ مرسل الامر [$n1](t.me/$us)", 
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+} 
+        
+if($text == "فتح العربية" and strpos($admin , '"status":"member"') == FALSE and !in_array($chat_id, $ar) and $type == "supergroup"){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"🔓 ¦ اللغة العربية بالفعل مفتوحه 
+🔆 ¦ مرسل الامر [$n1](t.me/$us)",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا ☄️🌟", 'url'=>"https://t.me/joinchat/AAAAAEOsH7MIf7kAMLNisA"]]
+]
+])
+]);
+}
 
 $sudo = 369155273;
 $get = explode("\n", file_get_contents('memberbot.txt'));
-if($text == '/start' and !in_array($chat_id, $get)){
+if($text == '/start' and !in_array($chat_id, $get) and $type == "supergroup"){
 file_put_contents('memberbot.txt',"\n" . $chat_id, FILE_APPEND);
 }
 if($text == '/users'){
@@ -1369,7 +1493,7 @@ for($y=0;$y<count($get); $y++){
 bot('sendMessage', [
 'chat_id'=>$get[$y],
 'text'=>"$bc[1]",
-'parse_mode'=>markdown,
+'parse_mode'=>'markdown',
 'disable_web_page_preview'=>true,
 ]);
 }
